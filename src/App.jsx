@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router";
 import FooterPage from "./pages/FooterPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
 import "./styles/App.css";
 
 function App() {
@@ -14,10 +15,11 @@ function App() {
       <NavBar />
       <div className="app-container" style={{ minHeight: "calc(100vh - 100px)" }}>
         <Routes>
-          <Route path="/" element={<ProductPage title="Tienda" />} />
+          <Route path="/products" element={<ProductPage title="Tienda" />} />
           <Route path="/cart" element={<CartContainer title="Categoría" />} />
           <Route path="/register" element={<RegisterPage title="Register" />} />
           <Route path="/login" element={<LoginPage title="Login" />} />
+          <Route path="/profile" element={<ProfilePage title="Login" />} />
         </Routes>
       </div>
       <FooterPage />

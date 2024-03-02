@@ -20,16 +20,17 @@ const LoginPage = () => {
   const handleLogin = async () => {
     try {
       const response = await authService.loginUser(email, password);
-      console.log(response);
       if (response.status === 'Sesión iniciada') {
-        // Mostrar mensaje de inicio de sesión exitoso con SweetAlert
+
         await Swal.fire({
           icon: 'success',
           title: 'Inicio de sesión exitoso',
           text: '¡Bienvenido de nuevo!',
         });
+
+        localStorage.setItem('token', response.token);
         // Redirigir al usuario
-        window.location.href = '/';
+        window.location.href = '/profile';
       } else {
         setLoginError(
           'Credenciales incorrectas. Por favor, inténtalo nuevamente.'

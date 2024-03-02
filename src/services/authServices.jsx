@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const BASE_URL = 'http://localhost:3000/api/extend/users'; // Reemplaza esto con la URL de tu backend
+const BASE_URL = "http://localhost:3000/api/extend/users"; // Reemplaza esto con la URL de tu backend
 
 const authService = {
   // Registro de usuario
@@ -9,7 +9,7 @@ const authService = {
       const response = await axios.post(`${BASE_URL}/register`, userData);
       return response.data;
     } catch (error) {
-      console.error('Error registrando usuario:', error);
+      console.error("Error registrando usuario:", error);
       throw error;
     }
   },
@@ -17,10 +17,13 @@ const authService = {
   // Inicio de sesión
   loginUser: async (email, password) => {
     try {
-      const response = await axios.post(`${BASE_URL}/login`, { email, password });
+      const response = await axios.post(`${BASE_URL}/login`, {
+        email,
+        password,
+      });
       return response.data;
     } catch (error) {
-      console.error('Error iniciando sesión:', error);
+      console.error("Error iniciando sesión:", error);
       throw error;
     }
   },
@@ -31,18 +34,7 @@ const authService = {
       const response = await axios.get(`${BASE_URL}/logout`);
       return response.data;
     } catch (error) {
-      console.error('Error cerrando sesión:', error);
-      throw error;
-    }
-  },
-
-  // Obtener perfil de usuario
-  getUserProfile: async () => {
-    try {
-      const response = await axios.get(`${BASE_URL}/profile`);
-      return response.data;
-    } catch (error) {
-      console.error('Error obteniendo perfil de usuario:', error);
+      console.error("Error cerrando sesión:", error);
       throw error;
     }
   },
@@ -53,7 +45,7 @@ const authService = {
       const response = await axios.put(`${BASE_URL}/profile`, userData);
       return response.data;
     } catch (error) {
-      console.error('Error actualizando perfil de usuario:', error);
+      console.error("Error actualizando perfil de usuario:", error);
       throw error;
     }
   },
@@ -64,12 +56,26 @@ const authService = {
       const response = await axios.delete(`${BASE_URL}/profile`);
       return response.data;
     } catch (error) {
-      console.error('Error eliminando cuenta de usuario:', error);
+      console.error("Error eliminando cuenta de usuario:", error);
       throw error;
     }
-  }
-};
+  },
 
-  
+  async getUserProfile(token) {
+    console.log(token);
+    console.log("Hola");
+    try {
+      const response = await axios.get(`${BASE_URL}/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Incluir el token en el encabezado Authorization
+        },
+      });
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      throw new Error("Error al obtener el perfil de usuario");
+    }
+  },
+};
 
 export default authService;
