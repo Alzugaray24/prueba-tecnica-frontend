@@ -8,6 +8,7 @@ const ProductListItem = ({ product }) => {
     try {
       // Llama a la función addToCart del servicio de carrito
       await cartService.addToCart(product._id, 1); // Aquí asumimos que se agrega una cantidad de 1, puedes ajustarlo según sea necesario
+      
       // Muestra una alerta para indicar que se agregó el producto al carrito con éxito
       Swal.fire({
         icon: 'success',

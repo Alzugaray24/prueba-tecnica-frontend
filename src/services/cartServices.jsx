@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000/api/extend/cart'; // Ruta de la API de carrito
+const BASE_URL = 'http://localhost:9090/api/extend/cart'; // Ruta de la API de carrito
 
 const cartService = {
   // Obtener el contenido del carrito
   getCart: async () => {
     try {
       const response = await axios.get(`${BASE_URL}`);
-      return response.data.items;
+      return response.data.carts;
     } catch (error) {
       console.error('Error fetching cart:', error);
       throw error;
@@ -17,7 +17,7 @@ const cartService = {
   // Agregar un producto al carrito
   addToCart: async (productId, quantity) => {
     try {
-      const response = await axios.post(`${BASE_URL}`, { id: productId, quantity });
+      const response = await axios.post(`${BASE_URL}`, { productId, quantity });
       return response.data;
     } catch (error) {
       console.error('Error adding to cart:', error);
@@ -39,8 +39,9 @@ const cartService = {
   // Eliminar un producto del carrito
   removeFromCart: async (itemId) => {
     try {
-        console.log(itemId);
+      console.log("desde remove");
       const response = await axios.delete(`${BASE_URL}/${itemId}`);
+      console.log("Response", response);
       return response.data;
     } catch (error) {
       console.error('Error removing from cart:', error);

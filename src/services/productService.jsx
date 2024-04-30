@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000/api/extend/products'; // Reemplaza esto con la URL de tu backend
+const BASE_URL = 'http://localhost:9090/api/extend/products'; // Reemplaza esto con la URL de tu backend
 
 const productService = {
   // Obtener todos los productos
   getAllProducts: async () => {
     try {
       const response = await axios.get(`${BASE_URL}`);
-      return response.data.items;
+      return response.data.productos.items;
     } catch (error) {
       console.error('Error fetching products:', error);
       throw error;
@@ -28,7 +28,10 @@ const productService = {
   // Actualizar un producto existente
   updateProduct: async (productId, updatedProductData) => {
     try {
+      console.log(productId);
+      console.log(updatedProductData);
       const response = await axios.put(`${BASE_URL}/${productId}`, updatedProductData);
+      console.log(response);
       return response.data;
     } catch (error) {
       console.error('Error updating product:', error);
@@ -39,7 +42,9 @@ const productService = {
   // Eliminar un producto existente
   deleteProduct: async (productId) => {
     try {
+      console.log(productId);
       const response = await axios.delete(`${BASE_URL}/${productId}`);
+      console.log(response);
       return response.data;
     } catch (error) {
       console.error('Error deleting product:', error);

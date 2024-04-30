@@ -1,6 +1,5 @@
 import React from 'react';
 import CartContainer from '../containers/CartContainer';
-import "../styles/cartPage.css"
 
 const CartPage = () => {
   return (
