@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+import { useState } from 'react';
 import { Box, Text, Image, Button, useToast } from '@chakra-ui/react';
 import cartService from '../services/cartServices';
 

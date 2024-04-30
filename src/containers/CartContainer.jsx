@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Text } from '@chakra-ui/react';
 import CartList from '../components/CartList';
 import cartService from '../services/cartServices'

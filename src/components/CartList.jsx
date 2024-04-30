@@ -1,4 +1,4 @@
-import React from 'react';
+/* eslint-disable react/prop-types */
 import { Box, Button, Link } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 import CartListItem from './CartListItem';

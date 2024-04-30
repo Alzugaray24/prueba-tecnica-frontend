@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Flex, Box, Button, Menu, MenuButton, MenuList, MenuItem, Spinner, Link as ChakraLink } from '@chakra-ui/react';
 import { BsChevronDown } from 'react-icons/bs';
 import { RiShoppingCart2Line, RiUserLine } from 'react-icons/ri';

@@ -1,16 +1,11 @@
-import React from "react";
 import NavBar from "./components/NavBar.jsx";
-// import CartContainer from "./containers/CartContainer.jsx";
 import ProductPage from "./pages/ProductPage.jsx";
 import CartPage from "./pages/CartPage.jsx";
 import { Route, Routes } from "react-router";
 import FooterPage from "./pages/FooterPage.jsx";
-// import RegisterPage from "./pages/RegisterPage.jsx";
-// import LoginPage from "./pages/LoginPage.jsx";
-// import ProfilePage from "./pages/ProfilePage.jsx";
-import "./styles/App.css";
 import RegisterContainer from "./containers/RegisterContainer.jsx";
 import LoginContainer from "./containers/LoginContainer.jsx";
+import "./styles/App.css";
 
 function App() {
   return (

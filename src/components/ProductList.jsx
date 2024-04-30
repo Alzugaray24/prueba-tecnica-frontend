@@ -1,5 +1,4 @@
-import React from 'react';
-import { Box } from '@chakra-ui/react';
+/* eslint-disable react/prop-types */
 import ProductListItem from './ProductListItem.jsx';
 
 const ProductList = ({ products }) => {

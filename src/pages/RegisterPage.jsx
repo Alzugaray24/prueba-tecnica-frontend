@@ -1,6 +1,4 @@
-import React from 'react';
-import RegisterContainer from '../containers/RegisterContainer.jsx';
-import "../styles/productPage.css"
+import ProductsContainer from "../containers/ProductsContainer";
 
 const ProductPage = () => {
   return (
