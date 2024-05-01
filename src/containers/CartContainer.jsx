@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Flex, Spinner, Text } from '@chakra-ui/react'; // Importar Flex desde Chakra UI
 import CartList from '../components/CartList';
-import cartService from '../services/cartServices'
+import cartService from '../services/cartServices';
 
 const CartContainer = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -24,17 +24,19 @@ const CartContainer = () => {
   }, []);
 
   return (
-    <Box p="4">
-      {loading ? (
-        <Text>Loading...</Text>
-      ) : (
-        error ? (
-          <Text>Error: {error}</Text>
+    <Flex justify="center" align="center" height="100vh"> {/* Centrar y alinear verticalmente */}
+      <Box p="4">
+        {loading ? (
+          <Spinner size="xl" color="blue.500" /> // Reemplazar el texto por el Spinner
         ) : (
-          <CartList cartItems={cartItems} />
-        )
-      )}
-    </Box>
+          error ? (
+            <Text>Error: {error}</Text>
+          ) : (
+            <CartList cartItems={cartItems} />
+          )
+        )}
+      </Box>
+    </Flex>
   );
 };
 

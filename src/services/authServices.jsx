@@ -28,6 +28,17 @@ const authService = {
       throw error;
     }
   },
+
+  ProfileUser: async() => {
+    const response = await axios.get(`${BASE_URL}/profile`)
+    return response.data.usuario
+  },
+
+  logoutUser: async() => {
+    console.log("estoy aca");
+    const response = await axios.post(`${BASE_URL}/logout`)
+    return response
+  }
   
 };
 

@@ -1,99 +1,106 @@
-import { useState, useEffect } from 'react';
-import { Flex, Box, Button, Menu, MenuButton, MenuList, MenuItem, Spinner, Link as ChakraLink } from '@chakra-ui/react';
-import { BsChevronDown } from 'react-icons/bs';
-import { RiShoppingCart2Line, RiUserLine } from 'react-icons/ri';
-import logo from '../assets/Logo.png';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import "../styles/NavBar.css";
+import { Flex, Box, Heading, Link as ChakraLink, Button, Icon } from '@chakra-ui/react';
+import { HiOutlineUserCircle, HiOutlineShoppingCart } from 'react-icons/hi'; // Importar iconos
+import authService from '../services/authServices';
 
 const NavBar = () => {
-  const [userInfo, setUserInfo] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      loadUserInfo();
-    }
+    const fetchUserData = async () => {
+      try {
+        const userProfile = await authService.ProfileUser();
+        console.log(userProfile);
+        setUserData(userProfile);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+
+    fetchUserData();
   }, []);
 
-  const loadUserInfo = async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get('http://localhost:3000/api/extend/users/profile', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      setUserInfo(response.data.user);
-    } catch (error) {
-      console.error('Error al cargar la información del usuario:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    window.location.href = '/login';
+  const handleLogout = async() => {
+    // Llamar a la función de logout del servicio de autenticación
+   await authService.logoutUser();
+    // Redirigir al usuario a la página de inicio
+    window.location.href = '/';
   };
 
   return (
-    <Flex p="4" className="navFlex" color="white" alignItems="center" justifyContent="space-between">
-      <Box>
-        <Link to={'/'}>
-          <img src={logo} width={'100px'} alt="Logo" />
-        </Link>
+    <Flex
+      as="nav"
+      align="center"
+      justify="space-between"
+      wrap="wrap"
+      padding="1.5rem"
+      bg="blue.500"
+      color="white"
+    >
+      <Flex align="center" mr={5}>
+        <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
+          <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
+            MyShop
+          </Link>
+        </Heading>
+      </Flex>
+
+      <Box display={{ base: 'block', md: 'none' }} onClick={() => console.log('Toggle menu')}>
+        <Icon as={HiOutlineShoppingCart} fill="white" width="20px" height="20px" />
       </Box>
-      <Box>
-        <Flex alignItems="center">
-          {isLoading ? (
-            <Spinner size="sm" color="white" />
-          ) : userInfo ? (
+
+      <Box
+        display={{ base: 'none', md: 'flex' }}
+        width={{ base: 'full', md: 'auto' }}
+        alignItems="center"
+        flexGrow={1}
+      >
+        <Flex align="center" mr={5}>
+          <ChakraLink as={Link} to="/products" mr={5}>
+            Products
+          </ChakraLink>
+          <ChakraLink as={Link} to="/cart" mr={5}>
+            <Icon as={HiOutlineShoppingCart} mr={1} />
+          </ChakraLink>
+          {userData && userData.role === 'admin' && (
             <>
-              <Box mr="4">
-                <ChakraLink as={Link} to="/products" color="white" mr={4}>
-                  <RiShoppingCart2Line size={24} />
-                  <Box ml={2}>Productos</Box>
-                </ChakraLink>
-              </Box>
-              <Box mr="4">
-                <ChakraLink as={Link} to="/cart" color="white" mr={4}>
-                  <RiShoppingCart2Line size={24} />
-                  <Box ml={2}>Carrito</Box>
-                </ChakraLink>
-              </Box>
-              <Box mr="4">
-                <ChakraLink as={Link} to="/profile" color="white" mr={4}>
-                  <RiUserLine size={24} />
-                  <Box ml={2}>Profile</Box>
-                </ChakraLink>
-              </Box>
-              <Box mr="4">
-                Welcome {userInfo.first_name} {userInfo.last_name}
-              </Box>
-              <Button onClick={handleLogout} variant="outline" colorScheme="whiteAlpha">Logout</Button>
+              <ChakraLink as={Link} to="/manage-products" mr={5}>
+                Manage Products
+              </ChakraLink>
+              <ChakraLink as={Link} to="/manage-users" mr={5}>
+                Manage Users
+              </ChakraLink>
             </>
-          ) : (
-            <Menu>
-              <MenuButton as={Button} bg="blue.500" rightIcon={<BsChevronDown />} color="white" variant="outline">
-                Cuenta
-              </MenuButton>
-              <MenuList>
-                <MenuItem>
-                  <ChakraLink as={Link} to="/login" color="white">
-                    Iniciar Sesión
-                  </ChakraLink>
-                </MenuItem>
-                <MenuItem>
-                  <ChakraLink as={Link} to="/register" color="white">
-                    Registrarse
-                  </ChakraLink>
-                </MenuItem>
-              </MenuList>
-            </Menu>
           )}
         </Flex>
+      </Box>
+
+      <Box
+        display={{ base: 'none', md: 'flex' }}
+        width={{ base: 'full', md: 'auto' }}
+        alignItems="center"
+      >
+        {userData ? (
+          <>
+            <Button colorScheme="whiteAlpha" variant="outline" as={Link} to="/profile" mr={5}>
+              <Icon as={HiOutlineUserCircle} mr={1} />
+              {userData.fullName}
+            </Button>
+            <Button colorScheme="whiteAlpha" variant="outline" onClick={handleLogout}>
+              Logout
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button colorScheme="whiteAlpha" variant="outline" as={Link} to="/login" mr={5}>
+              Login
+            </Button>
+            <Button colorScheme="whiteAlpha" variant="outline" as={Link} to="/register">
+              Register
+            </Button>
+          </>
+        )}
       </Box>
     </Flex>
   );

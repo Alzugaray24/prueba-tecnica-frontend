@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router";
 import FooterPage from "./pages/FooterPage.jsx";
 import RegisterContainer from "./containers/RegisterContainer.jsx";
 import LoginContainer from "./containers/LoginContainer.jsx";
+import ProfileContainer from "./containers/ProfileContainer.jsx";
 import "./styles/App.css";
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
           <Route path="/cart" element={<CartPage title="Categoría" />} />
           <Route path="/register" element={<RegisterContainer title="Register" />} />
           <Route path="/login" element={<LoginContainer title="Login" />} />
-          {/* <Route path="/profile" element={<ProfilePage title="Login" />} /> */}
+          <Route path="/profile" element={<ProfileContainer title="Login" />} />
         </Routes>
       </div>
       <FooterPage />
