@@ -1,13 +1,19 @@
 /* eslint-disable react/prop-types */
-import ProductListItem from './ProductListItem.jsx';
+import { Grid, GridItem } from "@chakra-ui/react";
+import ProductListItem from "./ProductListItem";
 
 const ProductList = ({ products }) => {
   return (
-    <div className="product-list">
-      {products.map(product => (
-        <ProductListItem key={product.code} product={product} />
+    <Grid
+      templateColumns="repeat(4, 1fr)" // Define 4 columnas de igual tamaño
+      gap={4} // Espacio entre los elementos
+    >
+      {products.map((product) => (
+        <GridItem key={product.code}>
+          <ProductListItem product={product} />
+        </GridItem>
       ))}
-    </div>
+    </Grid>
   );
 };
 

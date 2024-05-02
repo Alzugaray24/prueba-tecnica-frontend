@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { Box, Heading, Text, Spinner, Avatar, Flex, Center } from '@chakra-ui/react';
 
 function ProfilePage() {

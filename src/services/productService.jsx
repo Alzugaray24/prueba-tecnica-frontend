@@ -1,15 +1,48 @@
-import axios from 'axios';
+import axios from "axios";
 
-const BASE_URL = 'http://localhost:9090/api/extend/products'; // Reemplaza esto con la URL de tu backend
+const BASE_URL = "http://localhost:9090/api/extend/products"; // Reemplaza esto con la URL de tu backend
 
 const productService = {
-  // Obtener todos los productos
-  getAllProducts: async () => {
+  getAllProductsSortedByTitleDescending: async () => {
     try {
-      const response = await axios.get(`${BASE_URL}`);
+      const response = await axios.get(
+        `${BASE_URL}/sorted-by-title-descending`
+      );
       return response.data.productos.items;
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error("Error fetching products:", error);
+      throw error;
+    }
+  },
+
+  getAllProductsSortedByTitleAscending: async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/sorted-by-title-ascending`);
+      return response.data.productos.items;
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      throw error;
+    }
+  },
+
+  getAllProductsSortedByPriceAscending: async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/sorted-by-price-ascending`);
+      return response.data.productos.items;
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      throw error;
+    }
+  },
+
+  getAllProductsSortedByPriceDescending: async () => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/sorted-by-price-descending`
+      );
+      return response.data.productos.items;
+    } catch (error) {
+      console.error("Error fetching products:", error);
       throw error;
     }
   },
@@ -20,7 +53,19 @@ const productService = {
       const response = await axios.post(`${BASE_URL}`, newProductData);
       return response.data;
     } catch (error) {
-      console.error('Error adding product:', error);
+      console.error("Error adding product:", error);
+      throw error;
+    }
+  },
+
+  // Agregar un nuevo producto a favoritos
+  addOrRemoveProductToFavorite: async (productId) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/favorite/${productId}`);
+      console.log(response.data.booleano);
+      return response.data.booleano;
+    } catch (error) {
+      console.error("Error adding product:", error);
       throw error;
     }
   },
@@ -30,11 +75,14 @@ const productService = {
     try {
       console.log(productId);
       console.log(updatedProductData);
-      const response = await axios.put(`${BASE_URL}/${productId}`, updatedProductData);
+      const response = await axios.put(
+        `${BASE_URL}/${productId}`,
+        updatedProductData
+      );
       console.log(response);
       return response.data;
     } catch (error) {
-      console.error('Error updating product:', error);
+      console.error("Error updating product:", error);
       throw error;
     }
   },
@@ -47,10 +95,10 @@ const productService = {
       console.log(response);
       return response.data;
     } catch (error) {
-      console.error('Error deleting product:', error);
+      console.error("Error deleting product:", error);
       throw error;
     }
-  }
+  },
 };
 
 export default productService;
