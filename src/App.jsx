@@ -6,6 +6,7 @@ import FooterPage from "./pages/FooterPage.jsx";
 import RegisterContainer from "./containers/RegisterContainer.jsx";
 import LoginContainer from "./containers/LoginContainer.jsx";
 import ProfileContainer from "./containers/ProfileContainer.jsx";
+import FavoriteContainer from "./containers/FavoriteContainer.jsx";
 
 function App() {
   return (
@@ -13,7 +14,12 @@ function App() {
       <NavBar />
       <div
         className="app-container"
-        style={{ minHeight: "calc(100vh - 100px)" }}
+        style={{
+          minHeight: "calc(100vh - 100px)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
         <Routes>
           <Route path="/products" element={<ProductPage title="Tienda" />} />
@@ -24,7 +30,10 @@ function App() {
           />
           <Route path="/login" element={<LoginContainer title="Login" />} />
           <Route path="/profile" element={<ProfileContainer title="Login" />} />
-          {/* <Route path="/favorite" element={<FavoriteContainer title="favorite" />} /> */}
+          <Route
+            path="/favorite"
+            element={<FavoriteContainer title="favorite" />}
+          />
         </Routes>
       </div>
       <FooterPage />

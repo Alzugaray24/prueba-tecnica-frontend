@@ -1,39 +1,45 @@
-import { useState, useEffect } from 'react';
-import { Box, Flex, Spinner, Text } from '@chakra-ui/react'; // Importar Flex desde Chakra UI
-import CartList from '../components/CartList';
-import cartService from '../services/cartServices';
+import { useState, useEffect } from "react";
+import { Box, Flex, Spinner } from "@chakra-ui/react";
+import CartList from "../components/CartList";
+import cartService from "../services/cartServices";
+import ErrorContainer from "./ErrorContainer";
+import authService from "../services/authServices";
 
 const CartContainer = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    const fetchCartItems = async () => {
+    const fetchData = async () => {
       try {
-        const data = await cartService.getCart();
-        setCartItems(data.products);
-        setLoading(false);
+        const cartData = await cartService.getCart();
+        setCartItems(cartData.products);
+        setLoading(false); // Aquí marcamos como cargado el carrito una vez que se obtiene la información
       } catch (error) {
-        setError(error.message);
+        setError(true);
         setLoading(false);
+      }
+
+      try {
+        await authService.ProfileUser(); // Aquí solo intentamos obtener la información del usuario, sin manejo de errores específico
+      } catch (error) {
+        console.error("Error obteniendo información del usuario:", error);
       }
     };
 
-    fetchCartItems();
+    fetchData();
   }, []);
 
   return (
-    <Flex justify="center" align="center" height="100vh"> {/* Centrar y alinear verticalmente */}
+    <Flex justify="center" align="center" height="100vh">
       <Box p="4">
         {loading ? (
-          <Spinner size="xl" color="blue.500" /> // Reemplazar el texto por el Spinner
+          <Spinner size="xl" color="blue.500" />
+        ) : error ? (
+          <ErrorContainer error={"No se encontro ningun carrito"} />
         ) : (
-          error ? (
-            <Text>Error: {error}</Text>
-          ) : (
-            <CartList cartItems={cartItems} />
-          )
+          <CartList cartItems={cartItems} />
         )}
       </Box>
     </Flex>

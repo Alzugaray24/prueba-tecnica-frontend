@@ -9,6 +9,7 @@ import authService from "../services/authServices.jsx";
 
 const ProductListItem = ({ product }) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isUser, setIsUser] = useState(false);
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -19,6 +20,7 @@ const ProductListItem = ({ product }) => {
         const storedFavorites =
           JSON.parse(localStorage.getItem(userFavoritesKey)) || [];
         setIsFavorite(storedFavorites.includes(product._id));
+        setIsUser(true); // Se establece como verdadero después de obtener la información del usuario
       } catch (error) {
         console.error("Error fetching favorites:", error);
       }
@@ -61,7 +63,7 @@ const ProductListItem = ({ product }) => {
 
       localStorage.setItem(userFavoritesKey, JSON.stringify(updatedFavorites));
       setIsFavorite(!isFavorite);
-
+      setIsUser(true);
       await productService.addOrRemoveProductToFavorite(product._id);
     } catch (error) {
       console.error("Error toggling favorite:", error);
@@ -77,6 +79,7 @@ const ProductListItem = ({ product }) => {
       maxW="320px"
       mx="auto"
       className="product-card"
+      marginTop={"40px"}
     >
       <Box
         h="200px"
@@ -139,14 +142,20 @@ const ProductListItem = ({ product }) => {
             Stock: {product.stock}
           </Text>
         </Box>
-        <Button
-          colorScheme="blue"
-          mt="4"
-          className="btn-add-to-cart"
-          onClick={handleAddToCart}
-        >
-          Add to Cart
-        </Button>
+        {isUser ? (
+          <Button
+            colorScheme="blue"
+            mt="4"
+            className="btn-add-to-cart"
+            onClick={handleAddToCart}
+          >
+            Add to Cart
+          </Button>
+        ) : (
+          <Text color="red.500" mt="4">
+            Please sign in to add to cart
+          </Text>
+        )}
       </Box>
     </Box>
   );

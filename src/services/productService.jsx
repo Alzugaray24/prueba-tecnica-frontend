@@ -70,6 +70,17 @@ const productService = {
     }
   },
 
+  getFavProds: async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/favorite`);
+      console.log("aca", response.data.favoriteProducts);
+      return response;
+    } catch (error) {
+      console.error("Error searching favorite product:", error);
+      throw error;
+    }
+  },
+
   // Actualizar un producto existente
   updateProduct: async (productId, updatedProductData) => {
     try {

@@ -1,8 +1,15 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Flex, Box, Heading, Link as ChakraLink, Button, Icon } from '@chakra-ui/react';
-import { HiOutlineUserCircle, HiOutlineShoppingCart } from 'react-icons/hi'; // Importar iconos
-import authService from '../services/authServices';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  Flex,
+  Box,
+  Heading,
+  Link as ChakraLink,
+  Button,
+  Icon,
+} from "@chakra-ui/react";
+import { HiOutlineUserCircle, HiOutlineShoppingCart } from "react-icons/hi"; // Importar iconos
+import authService from "../services/authServices";
 
 const NavBar = () => {
   const [userData, setUserData] = useState(null);
@@ -14,18 +21,18 @@ const NavBar = () => {
         console.log(userProfile);
         setUserData(userProfile);
       } catch (error) {
-        console.error('Error fetching user profile:', error);
+        console.error("Error fetching user profile:", error);
       }
     };
 
     fetchUserData();
   }, []);
 
-  const handleLogout = async() => {
+  const handleLogout = async () => {
     // Llamar a la función de logout del servicio de autenticación
-   await authService.logoutUser();
+    await authService.logoutUser();
     // Redirigir al usuario a la página de inicio
-    window.location.href = '/';
+    window.location.href = "/";
   };
 
   return (
@@ -39,20 +46,28 @@ const NavBar = () => {
       color="white"
     >
       <Flex align="center" mr={5}>
-        <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-          <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
+        <Heading as="h1" size="lg" letterSpacing={"-.1rem"}>
+          <Link to="/" style={{ textDecoration: "none", color: "white" }}>
             MyShop
           </Link>
         </Heading>
       </Flex>
 
-      <Box display={{ base: 'block', md: 'none' }} onClick={() => console.log('Toggle menu')}>
-        <Icon as={HiOutlineShoppingCart} fill="white" width="20px" height="20px" />
+      <Box
+        display={{ base: "block", md: "none" }}
+        onClick={() => console.log("Toggle menu")}
+      >
+        <Icon
+          as={HiOutlineShoppingCart}
+          fill="white"
+          width="20px"
+          height="20px"
+        />
       </Box>
 
       <Box
-        display={{ base: 'none', md: 'flex' }}
-        width={{ base: 'full', md: 'auto' }}
+        display={{ base: "none", md: "flex" }}
+        width={{ base: "full", md: "auto" }}
         alignItems="center"
         flexGrow={1}
       >
@@ -63,7 +78,7 @@ const NavBar = () => {
           <ChakraLink as={Link} to="/cart" mr={5}>
             <Icon as={HiOutlineShoppingCart} mr={1} />
           </ChakraLink>
-          {userData && userData.role === 'admin' && (
+          {userData && userData.role === "admin" && (
             <>
               <ChakraLink as={Link} to="/manage-products" mr={5}>
                 Manage Products
@@ -77,26 +92,50 @@ const NavBar = () => {
       </Box>
 
       <Box
-        display={{ base: 'none', md: 'flex' }}
-        width={{ base: 'full', md: 'auto' }}
+        display={{ base: "none", md: "flex" }}
+        width={{ base: "full", md: "auto" }}
         alignItems="center"
       >
         {userData ? (
           <>
-            <Button colorScheme="whiteAlpha" variant="outline" as={Link} to="/profile" mr={5}>
+            <ChakraLink as={Link} to="/favorite" mr={5}>
+              Favorite Products
+            </ChakraLink>
+            <Button
+              colorScheme="whiteAlpha"
+              variant="outline"
+              as={Link}
+              to="/profile"
+              mr={5}
+            >
               <Icon as={HiOutlineUserCircle} mr={1} />
               {userData.fullName}
             </Button>
-            <Button colorScheme="whiteAlpha" variant="outline" onClick={handleLogout}>
+            <Button
+              colorScheme="whiteAlpha"
+              variant="outline"
+              onClick={handleLogout}
+            >
               Logout
             </Button>
           </>
         ) : (
           <>
-            <Button colorScheme="whiteAlpha" variant="outline" as={Link} to="/login" mr={5}>
+            <Button
+              colorScheme="whiteAlpha"
+              variant="outline"
+              as={Link}
+              to="/login"
+              mr={5}
+            >
               Login
             </Button>
-            <Button colorScheme="whiteAlpha" variant="outline" as={Link} to="/register">
+            <Button
+              colorScheme="whiteAlpha"
+              variant="outline"
+              as={Link}
+              to="/register"
+            >
               Register
             </Button>
           </>
