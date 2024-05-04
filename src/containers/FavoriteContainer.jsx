@@ -30,7 +30,7 @@ const FavoriteContainer = () => {
         {loading ? (
           <Text>Loading...</Text>
         ) : error ? (
-          <ErrorContainer error={"No se encontraron productos"} />
+          <ErrorContainer error={"No se encontraron productos favoritos"} />
         ) : (
           <ProductList products={favoriteProducts} />
         )}

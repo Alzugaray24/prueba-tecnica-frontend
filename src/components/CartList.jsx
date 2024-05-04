@@ -1,4 +1,5 @@
-import { Box, Button, Link } from "@chakra-ui/react";
+/* eslint-disable react/prop-types */
+import { Box, Button, Link, Grid, GridItem } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import CartListItem from "./CartListItem";
 
@@ -7,17 +8,23 @@ const CartList = ({ cartItems }) => {
     <Box
       mt="100px" // Espacio desde el Navbar
       mb="100px" // Espacio desde el Footer
-      display="flex"
-      flexDirection="column"
-      backgroundColor="gray.100" // Color de fondo
-      borderRadius="lg" // Borde redondeado
-      boxShadow="md" // Sombra
       p="4" // Relleno
     >
-      {/* Mapea cada elemento del carrito y renderiza un componente CartListItem para cada uno */}
-      {cartItems.map((item) => (
-        <CartListItem key={item.product._id} item={item} />
-      ))}
+      {/* Grid para mostrar los elementos del carrito */}
+      <Grid
+        templateColumns={{
+          base: "1fr",
+          md: "repeat(2, 1fr)",
+          lg: "repeat(3, 1fr)",
+        }} // Responsivo: 1 columna en dispositivos pequeños, 2 columnas en medianos, 3 columnas en grandes
+        gap={4} // Espacio entre los elementos
+      >
+        {cartItems.map((item) => (
+          <GridItem key={item.product._id}>
+            <CartListItem item={item} />
+          </GridItem>
+        ))}
+      </Grid>
       {/* Botones para finalizar compra y seguir comprando */}
       <Box mt="4" display="flex" justifyContent="space-between">
         <Button
