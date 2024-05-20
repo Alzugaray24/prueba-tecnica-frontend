@@ -1,9 +1,9 @@
-import ProductsContainer from '../containers/ProductsContainer';
+import ProductsContainer from "../containers/ProductsContainer";
 
 const ProductPage = () => {
   return (
     <div className="product-page">
-      <ProductsContainer /> {/* Renderiza el contenedor de productos */}
+      <ProductsContainer />
     </div>
   );
 };

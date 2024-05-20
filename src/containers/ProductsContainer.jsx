@@ -1,40 +1,68 @@
 import { useState, useEffect } from "react";
 import { Box, Text, Flex } from "@chakra-ui/react";
-import productService from "../services/productService.jsx";
-import ProductList from "../components/ProductList.jsx";
-import ErrorContainer from "./ErrorContainer.jsx";
+import ProductList from "../components/ProductList";
+import ErrorContainer from "./ErrorContainer";
+import productService from "../services/productService";
 
 const ProductsContainer = () => {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const data =
-          await productService.getAllProductsSortedByTitleDescending();
-
-        setProducts(data);
-        setLoading(false);
-      } catch (error) {
-        setError(true);
-        setLoading(false);
+        const productsData = await productService.getAllProducts();
+        setProducts(productsData);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchProducts();
   }, []);
 
+  // Función para eliminar un producto de la lista
+  const handleProductDeleted = (productId) => {
+    setProducts(products.filter((product) => product.id !== productId));
+  };
+
+  // Función para actualizar un producto en la lista
+  const handleProductUpdated = (productId, updatedProduct) => {
+    setProducts(
+      products.map((product) =>
+        product.id === productId ? updatedProduct : product
+      )
+    );
+  };
+
   return (
-    <Flex direction="column" justify="center" align="center">
+    <Flex
+      direction="column"
+      justify="center"
+      align="center"
+      maxW="1200"
+      w="auto"
+      mt="20px"
+      mb="20px"
+    >
       <Box p="4">
-        {loading ? (
+        {isLoading ? (
           <Text>Loading...</Text>
         ) : error ? (
-          <ErrorContainer error={"No se encontraron productos"} />
+          <ErrorContainer
+            error={error.message || "No se encontraron productos"}
+          />
+        ) : products.length > 0 ? (
+          <ProductList
+            products={products}
+            onProductDeleted={handleProductDeleted}
+            onProductUpdated={handleProductUpdated}
+          />
         ) : (
-          <ProductList products={products} />
+          <Text>No se encontraron productos</Text>
         )}
       </Box>
     </Flex>

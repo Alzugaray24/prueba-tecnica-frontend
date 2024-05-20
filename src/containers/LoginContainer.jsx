@@ -6,14 +6,11 @@ import {
   Input,
   FormControl,
   FormLabel,
+  useToast,
 } from "@chakra-ui/react";
 import authService from "../services/authServices";
-import Swal from "sweetalert2";
 import Cookies from "js-cookie";
-import axios from "axios"; // Importa Axios para manejar las solicitudes HTTP
-
-// Configuración global de Axios
-axios.defaults.withCredentials = true; // Habilitar cookies con las solicitudes salientes
+import Swal from "sweetalert2";
 
 const LoginContainer = () => {
   const [credentials, setCredentials] = useState({
@@ -23,6 +20,7 @@ const LoginContainer = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const toast = useToast();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -37,9 +35,7 @@ const LoginContainer = () => {
       const response = await authService.loginUser(credentials);
       setLoginSuccess(true);
 
-      console.log(response);
-
-      // Guarda el token en la cookie
+      // Guardar el token en la cookie
       Cookies.set("token", response.data.token, { expires: 1 });
 
       Swal.fire({
@@ -47,17 +43,20 @@ const LoginContainer = () => {
         title: "Inicio de sesión exitoso",
         text: "¡Te has conectado exitosamente!",
       }).then(() => {
-        window.location.href = "/";
+        window.location.href = "/products";
       });
     } catch (error) {
       setError(error.response.data.error);
-      setLoading(false);
 
-      Swal.fire({
-        icon: "error",
+      toast({
         title: "Error",
-        text: error.response.data.error,
+        description: error.response.data.error,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
       });
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -1,11 +1,11 @@
-import ProductsContainer from "../containers/ProductsContainer";
+import RegisterContainer from "../containers/RegisterContainer";
 
-const ProductPage = () => {
+const RegisterPage = () => {
   return (
     <div className="product-page">
-      <ProductsContainer /> {/* Renderiza el contenedor de productos */}
+      <RegisterContainer />
     </div>
   );
 };
 
-export default ProductPage;
+export default RegisterPage;

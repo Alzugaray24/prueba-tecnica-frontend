@@ -1,147 +1,92 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import {
-  Flex,
-  Box,
-  Heading,
-  Link as ChakraLink,
-  Button,
-  Icon,
-} from "@chakra-ui/react";
-import { HiOutlineUserCircle, HiOutlineShoppingCart } from "react-icons/hi"; // Importar iconos
-import authService from "../services/authServices";
+import { Box, Flex, Link, Text } from "@chakra-ui/react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 
 const NavBar = () => {
-  const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userProfile = await authService.ProfileUser();
-        console.log(userProfile);
-        setUserData(userProfile);
-      } catch (error) {
-        console.error("Error fetching user profile:", error);
-      }
-    };
+  const handleLogout = () => {
+    Cookies.remove("token");
 
-    fetchUserData();
-  }, []);
-
-  const handleLogout = async () => {
-    // Llamar a la función de logout del servicio de autenticación
-    await authService.logoutUser();
-    // Redirigir al usuario a la página de inicio
-    window.location.href = "/";
+    Swal.fire({
+      icon: "success",
+      title: "Sesión cerrada",
+      text: "Has cerrado sesión exitosamente.",
+    }).then(() => {
+      navigate("/");
+    });
   };
 
+  // Verifica si hay un token guardado en la cookie
+  const isLoggedIn = !!Cookies.get("token");
+
   return (
-    <Flex
-      as="nav"
-      align="center"
-      justify="space-between"
-      wrap="wrap"
-      padding="1.5rem"
-      bg="blue.500"
-      color="white"
-    >
-      <Flex align="center" mr={5}>
-        <Heading as="h1" size="lg" letterSpacing={"-.1rem"}>
-          <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-            MyShop
-          </Link>
-        </Heading>
-      </Flex>
-
-      <Box
-        display={{ base: "block", md: "none" }}
-        onClick={() => console.log("Toggle menu")}
-      >
-        <Icon
-          as={HiOutlineShoppingCart}
-          fill="white"
-          width="20px"
-          height="20px"
-        />
-      </Box>
-
-      <Box
-        display={{ base: "none", md: "flex" }}
-        width={{ base: "full", md: "auto" }}
-        alignItems="center"
-        flexGrow={1}
-      >
-        <Flex align="center" mr={5}>
-          <ChakraLink as={Link} to="/products" mr={5}>
-            Products
-          </ChakraLink>
-          <ChakraLink as={Link} to="/cart" mr={5}>
-            <Icon as={HiOutlineShoppingCart} mr={1} />
-          </ChakraLink>
-          {userData && userData.role === "admin" && (
-            <>
-              <ChakraLink as={Link} to="/manage-products" mr={5}>
-                Manage Products
-              </ChakraLink>
-              <ChakraLink as={Link} to="/manage-users" mr={5}>
-                Manage Users
-              </ChakraLink>
-            </>
-          )}
-        </Flex>
-      </Box>
-
-      <Box
-        display={{ base: "none", md: "flex" }}
-        width={{ base: "full", md: "auto" }}
-        alignItems="center"
-      >
-        {userData ? (
+    <Box bg="teal.500" p={4}>
+      <Flex justify="center" align="center">
+        {isLoggedIn ? (
           <>
-            <ChakraLink as={Link} to="/favorite" mr={5}>
-              Favorite Products
-            </ChakraLink>
-            <Button
-              colorScheme="whiteAlpha"
-              variant="outline"
-              as={Link}
-              to="/profile"
-              mr={5}
+            <Link
+              as={RouterLink}
+              to="/create-product"
+              mx={2}
+              color="white"
+              fontWeight="bold"
             >
-              <Icon as={HiOutlineUserCircle} mr={1} />
-              {userData.fullName}
-            </Button>
-            <Button
-              colorScheme="whiteAlpha"
-              variant="outline"
+              Crear Producto
+            </Link>
+            <Text color="white" mx={2}>
+              /
+            </Text>
+            <Link
+              as={RouterLink}
+              to="/products"
+              mx={2}
+              color="white"
+              fontWeight="bold"
+            >
+              Ver Productos
+            </Link>
+            <Text color="white" mx={2}>
+              /
+            </Text>
+            <Link
               onClick={handleLogout}
+              mx={2}
+              color="white"
+              fontWeight="bold"
+              style={{ cursor: "pointer" }}
             >
               Logout
-            </Button>
+            </Link>
           </>
         ) : (
           <>
-            <Button
-              colorScheme="whiteAlpha"
-              variant="outline"
-              as={Link}
+            <Link
+              as={RouterLink}
               to="/login"
-              mr={5}
+              mx={2}
+              color="white"
+              fontWeight="bold"
             >
               Login
-            </Button>
-            <Button
-              colorScheme="whiteAlpha"
-              variant="outline"
-              as={Link}
+            </Link>
+            <Text color="white" mx={2}>
+              /
+            </Text>
+            <Link
+              as={RouterLink}
               to="/register"
+              mx={2}
+              color="white"
+              fontWeight="bold"
             >
               Register
-            </Button>
+            </Link>
           </>
         )}
-      </Box>
-    </Flex>
+      </Flex>
+    </Box>
   );
 };
 

@@ -2,7 +2,6 @@
 import { Alert, AlertIcon, Box, Text } from "@chakra-ui/react";
 
 const ErrorContainer = (props) => {
-  console.log("estoy acax");
   return (
     <Box p="4" borderWidth="1px" borderRadius="lg" boxShadow="md">
       <Alert

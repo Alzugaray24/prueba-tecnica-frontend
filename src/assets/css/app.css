@@ -1,0 +1,11 @@
+.app {
+    font-family:Arial, Helvetica, sans-serif;
+    background-color: white;
+}
+
+.app-container {
+    min-height: calc(100vh - 100px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
