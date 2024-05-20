@@ -36,10 +36,9 @@ const RegisterContainer = () => {
     try {
       await authService.registerUser(userData);
       setSuccessMessage("User registered successfully!");
-      // Redireccionar a la página de inicio de sesión después del registro exitoso
       window.location.href = "/login";
     } catch (error) {
-      setError(error.response.data.error); // Mostrar el mensaje de error específico
+      setError(error.response.data.error);
 
       toast({
         title: "Error",

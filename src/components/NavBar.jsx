@@ -18,7 +18,6 @@ const NavBar = () => {
     });
   };
 
-  // Verifica si hay un token guardado en la cookie
   const isLoggedIn = !!Cookies.get("token");
 
   return (

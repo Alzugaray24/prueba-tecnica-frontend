@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/api/extend/auth"; // Reemplaza esto con la URL de tu backend
+const BASE_URL = "http://localhost:8080/api/extend/auth";
 
 const authService = {
   registerUser: async (userData) => {

@@ -12,7 +12,7 @@ const ProductListItem = ({ product, onProductDeleted, onProductUpdated }) => {
         title: "Producto eliminado",
         text: "El producto ha sido eliminado exitosamente",
       });
-      onProductDeleted(product.id); // Actualiza la lista de productos en el componente padre
+      onProductDeleted(product.id);
     } catch (error) {
       console.error("Error eliminando producto:", error);
       Swal.fire({
