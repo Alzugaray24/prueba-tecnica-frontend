@@ -5,7 +5,7 @@ const BASE_URL = "http://localhost:8080/api/extend/products";
 const productService = {
   getAllProducts: async () => {
     try {
-      const response = await axios.get(`${BASE_URL}`);
+      const response = await axios.get(BASE_URL, { withCredentials: true });
       return response.data.products;
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -15,10 +15,10 @@ const productService = {
 
   addProduct: async (newProductData) => {
     try {
-      console.log(newProductData);
-      const response = await axios.post(`${BASE_URL}`, newProductData);
-      console.log(response);
-      return response;
+      const response = await axios.post(BASE_URL, newProductData, {
+        withCredentials: true,
+      });
+      return response.data;
     } catch (error) {
       console.error("Error adding product:", error);
       throw error;
@@ -29,10 +29,10 @@ const productService = {
     try {
       const response = await axios.put(
         `${BASE_URL}/${productId}`,
-        updatedProductData
+        updatedProductData,
+        { withCredentials: true }
       );
-      console.log(response);
-      return response;
+      return response.data;
     } catch (error) {
       console.error("Error updating product:", error);
       throw error;
@@ -41,8 +41,9 @@ const productService = {
 
   deleteProduct: async (productId) => {
     try {
-      const response = await axios.delete(`${BASE_URL}/${productId}`);
-      console.log(response);
+      const response = await axios.delete(`${BASE_URL}/${productId}`, {
+        withCredentials: true,
+      });
       return response.data;
     } catch (error) {
       console.error("Error deleting product:", error);

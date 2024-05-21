@@ -35,7 +35,6 @@ const LoginContainer = () => {
       const response = await authService.loginUser(credentials);
       setLoginSuccess(true);
 
-      // Guardar el token en la cookie
       Cookies.set("token", response.data.token, { expires: 1 });
 
       Swal.fire({
