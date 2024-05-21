@@ -24,12 +24,10 @@ const ProductsContainer = () => {
     fetchProducts();
   }, []);
 
-  // Función para eliminar un producto de la lista
   const handleProductDeleted = (productId) => {
     setProducts(products.filter((product) => product.id !== productId));
   };
 
-  // Función para actualizar un producto en la lista
   const handleProductUpdated = (productId, updatedProduct) => {
     setProducts(
       products.map((product) =>
@@ -53,7 +51,9 @@ const ProductsContainer = () => {
           <Text>Loading...</Text>
         ) : error ? (
           <ErrorContainer
-            error={error.message || "No se encontraron productos"}
+            error={
+              "Usuario no autenticado, inicia sesion para ver los productos"
+            }
           />
         ) : products.length > 0 ? (
           <ProductList

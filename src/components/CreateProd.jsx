@@ -33,8 +33,7 @@ const CreateProd = () => {
     e.preventDefault();
     try {
       const response = await productService.addProduct(formData);
-      console.log(response.status);
-      if (response.status === 201) {
+      if (response.status === "success") {
         Swal.fire({
           icon: "success",
           title: "Producto creado",
