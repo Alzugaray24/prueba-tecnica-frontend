@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Text, Flex } from "@chakra-ui/react";
+import { Box, Text, Flex, Spinner } from "@chakra-ui/react";
 import ProductList from "../components/ProductList";
 import ErrorContainer from "./ErrorContainer";
 import productService from "../services/productService";
@@ -17,7 +17,9 @@ const ProductsContainer = () => {
       } catch (err) {
         setError(err);
       } finally {
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
       }
     };
 
@@ -41,18 +43,18 @@ const ProductsContainer = () => {
       direction="column"
       justify="center"
       align="center"
-      maxW="1200"
+      maxW="1200px"
       w="auto"
       mt="20px"
       mb="20px"
     >
       <Box p="4">
         {isLoading ? (
-          <Text>Loading...</Text>
+          <Spinner size="xl" color="blue.500" />
         ) : error ? (
           <ErrorContainer
             error={
-              "Usuario no autenticado, inicia sesion para ver los productos"
+              "Usuario no autenticado, inicia sesión para ver los productos"
             }
           />
         ) : products.length > 0 ? (
