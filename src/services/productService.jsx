@@ -3,9 +3,12 @@ import axios from "axios";
 const BASE_URL = "http://localhost:8080/api/extend/products";
 
 const productService = {
-  getAllProducts: async () => {
+  getAllProducts: async (page = 1, limit = 10) => {
     try {
-      const response = await axios.get(BASE_URL, { withCredentials: true });
+      const response = await axios.get(BASE_URL, {
+        params: { page, limit },
+        withCredentials: true,
+      });
       return response.data.products;
     } catch (error) {
       console.error("Error fetching products:", error);
