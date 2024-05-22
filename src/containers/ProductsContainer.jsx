@@ -1,4 +1,4 @@
-// prod
+// product
 import { useState, useEffect } from "react";
 import { Box, Text, Flex, Spinner, Button } from "@chakra-ui/react";
 import ProductList from "../components/ProductList";
