@@ -21,7 +21,7 @@ const ProductsContainer = () => {
         );
         setProducts(productsData);
       } catch (err) {
-        setError(err);
+        setError(err.response.data);
       } finally {
         setTimeout(() => {
           setIsLoading(false);
@@ -68,22 +68,20 @@ const ProductsContainer = () => {
         {isLoading ? (
           <Spinner size="xl" color="blue.500" />
         ) : error ? (
-          <ErrorContainer
-            error={
-              "Usuario no autenticado, inicia sesión para ver los productos"
-            }
-          />
+          <ErrorContainer error={error} />
         ) : products.length > 0 ? (
           <>
             <ProductList
               products={products}
               onProductDeleted={handleProductDeleted}
               onProductUpdated={handleProductUpdated}
+              setProducts={setProducts}
             />
             <Flex justify="space-between" mt="4">
               <Button onClick={handlePreviousPage} disabled={currentPage === 1}>
                 Anterior
               </Button>
+
               <Button onClick={handleNextPage}>Siguiente</Button>
             </Flex>
           </>

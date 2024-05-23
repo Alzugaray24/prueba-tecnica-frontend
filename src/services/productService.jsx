@@ -9,6 +9,7 @@ const productService = {
         params: { page, limit },
         withCredentials: true,
       });
+      console.log(response.data.products);
       return response.data.products;
     } catch (error) {
       console.error("Error fetching products:", error);
